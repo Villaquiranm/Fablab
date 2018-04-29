@@ -1,0 +1,4 @@
+Structure de l'arborescence
+  - pictures : dossier contenant des fichiers images pour les tests
+  - snippets : fragments de code simples qui servent d'exemple pour certaines fonctionnalités
+  - src : code source de l'application, le point d'entrée étant le fichier "main.py"
