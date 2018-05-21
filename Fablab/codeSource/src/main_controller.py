@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from image_controller import *
 from servo_controller import *
 
@@ -8,7 +9,7 @@ SLEEP_TIME = 2
 # Class managing all the controller and containing the main loop
 class Main_Controller:
     def __init__(self):
-        self._servoController = Servo_Controller()
+        self._servoController = Servo_Controller([0,1,2],0.05)
         self._imageController = Image_Controller()
         #x,y = self._imageController.get_point_coordinates()
         #print('x='+str(x)+',y='+str(y))

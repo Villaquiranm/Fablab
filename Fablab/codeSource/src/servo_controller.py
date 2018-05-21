@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from kinematic import *
 from control_servo import *
 

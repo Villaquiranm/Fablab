@@ -37,7 +37,7 @@ while(True):
      #   print("\tSize of contour %d: %d" % (i, len(c)))
 
 # draw contours over original image
-    cv2.drawContours(img, contours, -1, (0, 0, 255), 5)
+    cv2.drawContours(img, contours, 0, (0, 0, 255), 5)
 
 # display original image with contours
     cv2.namedWindow("output", cv2.WINDOW_NORMAL)

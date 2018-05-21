@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from point_detector import *
 import cv2
 
