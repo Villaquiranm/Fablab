@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+import math
 from image_controller import *
 from servo_controller import *
 
@@ -16,6 +17,7 @@ class Main_Controller:
 
     def main_loop(self):
         while (True):
+            print "working"
             # Get point coordinates
             x,y = self._imageController.get_point_coordinates()
 
@@ -26,8 +28,8 @@ class Main_Controller:
             # Move motors
             x = x-0.5
             y = y-0.5
-            r = sqrt(x*x+y*y)
-            self._servoController.moveTowardDirection(x/r,y/r)
+            r = math.sqrt(x*x+y*y)
+            self._servoController.moveTowardsDirection(x/r,y/r)
             
             # Wait a little to be sure the motors are at the right location
             time.sleep(SLEEP_TIME)
