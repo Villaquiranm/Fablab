@@ -25,9 +25,11 @@ while(True):
 
     # create binary image
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    binary = auto_canny(blur)
-
+   # blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    
+    #binary = auto_canny(blur)
+    binary = cv2.Canny(gray,150,300)
+    cv2.imshow("out", binary)
 # find contours
     (contours, _) = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -40,7 +42,7 @@ while(True):
     cv2.drawContours(img, contours, -1, (0, 0, 255), 5)
 
 # display original image with contours
-    cv2.namedWindow("output", cv2.WINDOW_NORMAL)
+    #cv2.namedWindow("output", cv2.WINDOW_NORMAL)
     cv2.imshow("output", img)
     if cv2.waitKey(30) & 0xFF == ord('q'):
         break
