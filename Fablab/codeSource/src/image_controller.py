@@ -17,9 +17,9 @@ class Image_Controller:
         if self._cap.isOpened():
             print "camera off"
         ret, frame = self._cap.read()
-        #return self._detector.compute_point_coordinates(frame)
+        return self._detector.compute_point_coordinates(frame)
         #time.sleep(10)
-        return -1,-1
+        #return -1,-1
         
     # Method called when this controller is destroyed
     def on_destroy(self):
