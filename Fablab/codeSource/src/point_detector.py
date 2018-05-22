@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import cv2
+import numpy as np
 
 # Class that analyzes images and finds the closest point to the center
 # with the method "vec2 compute_point_coordinates(image)"
@@ -26,47 +27,29 @@ class Point_Detector:
     # Returns
     #   a tuple (x,y) corresponding to the coordinates of the point found with 0<=x,y<=1
     #   or (-1,-1) if no points are found
-    def compute_point_coordinates(self,image):
-        self._groups = []
+    
+    def compute_point_coordinates(self,img):
+        r=-1
+        c=-1
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        blur = cv2.GaussianBlur(gray, (5, 5), 0)
+        #binary = self._auto_canny(blur)
 
-        nbRows = image.shape[0]
-        nbCols = image.shape[1]
-        ratio = float(nbCols)/float(nbRows)
+    # find contours
+        #(contours, _) = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        (contours, _) = cv2.findContours(blur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        # First we resize the picture to make the detection simpler
-        resizedImage = cv2.resize(image,(600,int(ratio*600.0)),interpolation=cv2.INTER_CUBIC)
+    # draw contours over original image
+        cv2.drawContours(img, contours,0, (0, 0, 255), 5)
 
-        nbRows = resizedImage.shape[0]
-        nbCols = resizedImage.shape[1]
-
-        # Then we want a grey picture
-        grayImage = cv2.cvtColor(resizedImage,cv2.COLOR_BGR2GRAY)
-
-        # After that we compute edges
-        edgesImage = cv2.Canny(grayImage,100,200)
-        #cv2.imwrite('truc.png',edgesImage)
-
-        # Now we try to find the groups of points
-        for row in range(0,nbRows-1):
-            for col in range(0,nbCols-1):
-                if(edgesImage[row,col]==255):
-                    self._processDot(row,col)
-
-        # Finally we keep the group closest to the center
-        r = -1
-        c = -1
-        center = (nbRows/2,nbCols/2)
-        for g in self._groups:
-            # compute the center
-            row = (g[0]+g[1])/2
-            col = (g[2]+g[3])/2
-
-            # if (row,col) is closer to the center than (r,c)
-            if self._distanceSquare((row,col),center)<self._distanceSquare((r,c),center) :
-                r = row
-                c = col
-
+    # display original image with contours
+        #cv2.namedWindow("output", cv2.WINDOW_NORMAL)
+        cv2.imshow("output", img)        
+        if cv2.waitKey(1):
+            r=-1
+            
         if r==-1:
+            
             return -1,-1
 
         return c/float(nbCols),r/float(nbRows)
@@ -105,3 +88,15 @@ class Point_Detector:
     # Computes the square distance between p1 and p2
     def _distanceSquare(self,p1,p2):
         return (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1])
+    
+
+    def _auto_canny(image, sigma=0.33):
+	# compute the median of the single channel pixel intensities
+	v = np.median(image)
+ 
+	# apply automatic Canny edge detection using the computed median
+	lower = int(max(0, (1.0 - sigma) * v))
+	upper = int(min(255, (1.0 + sigma) * v))
+	edged = cv2.Canny(image, lower, upper)
+	# return the edged image
+	return edged

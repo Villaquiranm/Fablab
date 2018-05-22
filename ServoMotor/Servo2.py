@@ -30,9 +30,11 @@ def setDirection(direction):
 print "starting"
 setup()
 ##for direction in range(30, 160, 10):
-##    setDirection(direction)
-##    time.sleep(1)
-direction = 40
+
+    ##setDirection(direction)
+    ##time.sleep(1)
+direction = 90
+
 setDirection(direction)    
 print "done"
   

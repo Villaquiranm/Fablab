@@ -14,11 +14,9 @@ class Image_Controller:
     # Returns the coordinates of the point seen by the camera
     def get_point_coordinates(self):
         print "entre"
-        if self._cap.isOpened():
-            print "camera off"
         ret, frame = self._cap.read()
         return self._detector.compute_point_coordinates(frame)
-        #time.sleep(10)
+        
         #return -1,-1
         
     # Method called when this controller is destroyed
