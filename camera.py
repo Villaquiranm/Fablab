@@ -1,3 +1,4 @@
+
 '''
  * Python program to use contours to count the objects in an image.
  *
@@ -26,7 +27,7 @@ while(True):
     # create binary image
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    binary = self._auto_canny(blur)
+    binary = auto_canny(blur)
 
 # find contours
     (contours, _) = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -37,7 +38,7 @@ while(True):
      #   print("\tSize of contour %d: %d" % (i, len(c)))
 
 # draw contours over original image
-    cv2.drawContours(img, contours,0, (0, 0, 255), 5)
+    cv2.drawContours(img, contours,-1, (0, 0, 255), 5)
 
 # display original image with contours
     #cv2.namedWindow("output", cv2.WINDOW_NORMAL)

@@ -9,5 +9,5 @@ def init():
 
 print "Initializing"
 init()
-controler.moveTowardsDirection(0,0)
+controler.moveTowardsDirection(-50,0)
 

@@ -1,8 +1,20 @@
 # -*-coding:utf-8 -*
 import time
-import Adafruit_PCA9685 #import the adafruit module
+from smbus import SMBus
+from PCA9685 import PWM
 
 class Servomoteur:
+    global fPWM 
+    fPWM = 50
+    global i2c_address
+    i2c_address = 0x40 # (standard) adapt to your module
+    channel = 0 # adapt to your wiring
+    channel2 = 1
+    channel3 = 2
+    global a
+    global b
+    a = 8.5 # adapt to your servo
+    b = 2  # adapt to your servo
 
     def __init__(self, channel, rapport):
         """
@@ -12,16 +24,21 @@ class Servomoteur:
 
         self.channel = channel                 # la broche de la carte utilisée : entre 0 et 15
         self.dc = rapport                      # le rapport cyclique du servo
-        self.period = 20.0                     # en millisecondes
+        self.setup()                           #Régler la fréquence
 
-        freq = 1000.0 / self.period            # Hz (ici 50 Hz)
-        self.pwm = Adafruit_PCA9685.PCA9685()  #Initialiser le PCA9685 en utilisant l'adresse par défaut(0x40)
+    def setup(self):
+        i2c_address
+        global pwm
+        bus = SMBus(1) # Raspberry Pi revision 2
+        pwm = PWM(bus, i2c_address)
+        pwm.setFreq(fPWM)
+        
+    def setDirection(self,direction):
+        duty = a / 180 * direction + b
+        pwm.setDuty(self.channel, duty)
+        print "direction =", direction, "-> duty =", duty
 
-        # choix initial : on place le servo en position initiale ie 0° -->Toff= 205 (en resolution de bits)
-        self.pwm.set_pwm(channel, 0, rapport*4096)  #(channel,Ton,Toff): Ton = 0 tjrs et Toff = dutyCycle*4096
-        self.pwm.set_pwm_freq(freq)            #Régler la fréquence
-
-
+        
     def set_servo_pulse(self, angle):
         """
             1/Calcul du rapport cyclique correspondant à l'angle
@@ -33,6 +50,5 @@ class Servomoteur:
         # 90° --> rc = 7.5% --> Toff = 307
         # 180° --> rc = 10% --> Toff = 410
         if angle <= 180 :
-            self.dc = (angle/180.0 + 1)*5               # rapport cyclique correspondant à angle
-            self.pwm.set_pwm(self.channel, 0, int(self.dc*4096))
-            #time.sleep(1)                                   # attendre 1 seconde
+            self.setDirection(angle)
+        # attendre 1 seconde
