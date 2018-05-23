@@ -18,8 +18,9 @@ class Servo_Controller:
     def moveTowardsDirection(self,x,y):
         global cinematique
         # calculer les angles correspondant
-        angles = self._cinematique.inverse_kinematic(self._x, self._y, -350)   # a voir pour la valeur de z
+        angles = self._cinematique.inverse_kinematic(self._x, self._y, -250)   # a voir pour la valeur de z
         # Actualiser le rapport cyclique et set la position des différents servos
+        print "a1: ",angles[1],"a2: ",angles[2],"a3: ",angles[3]
         self._servo1.set_servo_pulse(angles[1])
         self._servo2.set_servo_pulse(angles[2])
         self._servo3.set_servo_pulse(angles[3])
