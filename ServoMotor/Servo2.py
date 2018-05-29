@@ -33,7 +33,7 @@ setup()
 
     ##setDirection(direction)
     ##time.sleep(1)
-direction = 60
+direction = 142
 
 setDirection(direction)    
 print "done"

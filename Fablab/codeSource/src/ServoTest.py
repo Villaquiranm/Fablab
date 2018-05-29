@@ -9,5 +9,8 @@ def init():
 
 print "Initializing"
 init()
-controler.moveTowardsDirection(-50,0)
+#for x in range(-70,70,10):
+    #for y in range(0,50,1):
+controler.moveTowardsDirection(0,0)
+#    time.sleep(1)
 
